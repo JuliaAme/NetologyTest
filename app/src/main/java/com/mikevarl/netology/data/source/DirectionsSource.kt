@@ -9,6 +9,12 @@ interface DirectionsSource {
 
 }
 
+class NetworkDirectionsSource : DirectionsSource {
+    override suspend fun getDirections(): List<Direction> {
+        return JsonApi.retrofitService.getJsonData().data.map { it.toDirection() }
+    }
+}
+
 class MockDirectionsSource : DirectionsSource {
     override suspend fun getDirections(): List<Direction> {
         return listOf(

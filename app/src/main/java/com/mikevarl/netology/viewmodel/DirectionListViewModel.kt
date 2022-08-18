@@ -3,7 +3,7 @@ package com.mikevarl.netology.viewmodel
 import androidx.lifecycle.*
 import com.mikevarl.netology.data.model.Direction
 import com.mikevarl.netology.data.source.DirectionsSource
-import com.mikevarl.netology.data.source.MockDirectionsSource
+import com.mikevarl.netology.data.source.NetworkDirectionsSource
 import kotlinx.coroutines.launch
 
 class DirectionListViewModel(private val directionsSource: DirectionsSource) : ViewModel() {
@@ -32,7 +32,7 @@ val DirectionListViewModelFactory = object : ViewModelProvider.Factory {
         with(modelClass) {
             when {
                 isAssignableFrom(DirectionListViewModel::class.java) ->
-                    DirectionListViewModel(MockDirectionsSource())
+                    DirectionListViewModel(NetworkDirectionsSource())
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
