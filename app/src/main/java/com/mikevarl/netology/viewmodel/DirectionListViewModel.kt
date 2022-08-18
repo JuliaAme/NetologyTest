@@ -11,7 +11,11 @@ class DirectionListViewModel(private val directionsSource: DirectionsSource) : V
     private val _directions = MutableLiveData<List<Direction>>()
     val directions: LiveData<List<Direction>> = _directions
 
+    private val _directionsLoaded = MutableLiveData<Boolean>()
+    val directionsLoaded: LiveData<Boolean> = _directionsLoaded
+
     init {
+        _directionsLoaded.value = false
         getDirections()
     }
 
@@ -19,6 +23,7 @@ class DirectionListViewModel(private val directionsSource: DirectionsSource) : V
         viewModelScope.launch {
             try {
                 _directions.value = directionsSource.getDirections()
+                if (_directions.value?.isNotEmpty() == true) _directionsLoaded.value = true
             } catch (e: Exception) {
                 println(e)
             }
