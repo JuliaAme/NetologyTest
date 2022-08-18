@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Netology Test</string>
+    <string name="directions_list_header">Изучайте <font color='blue'>актуальные темы</font></string>
+    <plurals name="direction_cources_amount">
+        <item quantity="one">%d курс</item>
+        <item quantity="few">%d курса</item>
+        <item quantity="other">%d курсов</item>
+    </plurals>
+
 </resources>
