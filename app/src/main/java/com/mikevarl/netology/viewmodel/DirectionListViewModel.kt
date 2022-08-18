@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.mikevarl.netology.data.model.Direction
 import com.mikevarl.netology.data.source.DirectionsSource
 import com.mikevarl.netology.data.source.NetworkDirectionsSource
+import com.mikevarl.netology.util.retry
 import kotlinx.coroutines.launch
 
 class DirectionListViewModel(private val directionsSource: DirectionsSource) : ViewModel() {
@@ -21,11 +22,9 @@ class DirectionListViewModel(private val directionsSource: DirectionsSource) : V
 
     private fun getDirections() {
         viewModelScope.launch {
-            try {
+            retry {
                 _directions.value = directionsSource.getDirections()
                 if (_directions.value?.isNotEmpty() == true) _directionsLoaded.value = true
-            } catch (e: Exception) {
-                println(e)
             }
         }
     }
