@@ -20,8 +20,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Находим на экране recyclerView для списка и progressIndicator для лоадера, чтобы управлять ими из кода
         val progressIndicator: CircularProgressIndicator = findViewById(R.id.progress_indicator)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+
+        // Конфигурируем recyclerView: добавляем разделители между элементами списка и присваиваем адаптеры, определяющие отображение элементов списка.
         recyclerView.addItemDecoration(
             DividerItemDecoration(
                 recyclerView.context,
@@ -30,8 +33,9 @@ class MainActivity : AppCompatActivity() {
         )
         val directionsAdapter = DirectionsAdapter()
         val headerAdapter = DirectionsHeaderAdapter()
-        recyclerView.adapter = ConcatAdapter(headerAdapter, directionsAdapter)
+        recyclerView.adapter = ConcatAdapter(headerAdapter, directionsAdapter) // объединяем адаптеры заголовка списка и направления обучения
 
+        // Логика показа лоадера, пока данные не получены с сервера и замены лоадера на список после того, как данные загрузились.
         directionListViewModel.directionsLoaded.observe(this) {
             if (it) {
                 progressIndicator.visibility = View.GONE
@@ -41,6 +45,8 @@ class MainActivity : AppCompatActivity() {
                 recyclerView.visibility = View.GONE
             }
         }
+
+        // Подписываемся на изменения списка направлений из ViewModel. Передаём его в адаптер RecyclerView после изменения.
         directionListViewModel.directions.observe(this) {
             directionsAdapter.submitList(it)
         }

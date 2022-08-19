@@ -16,18 +16,30 @@ import java.lang.IllegalArgumentException
 
 private const val BADGE_SIZE = 100
 
+/**
+ * Так как в нашем списке много элементов, удобно наследовать [ListAdapter].
+ * Он эффективно переиспользует элементы отображения для отрисовки данных.
+ * Для этого адаптера нужно описать, как сравнивать элементы между собой ([DirectionDiffCallback]).
+ */
 class DirectionsAdapter :
     ListAdapter<Direction, DirectionsAdapter.DirectionViewHolder>(DirectionDiffCallback) {
 
     class DirectionViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
+        // Получаем поля из [R.layout.direction_item]
         private val directionTitleTextView: TextView = itemView.findViewById(R.id.direction_title)
         private val directionSubtitleTextView: TextView =
             itemView.findViewById(R.id.direction_subtitle)
         private val directionBadgeView: TextView = itemView.findViewById(R.id.direction_badge)
+
+        // Создаём [ShapeDrawable] для отрисовки бейджа
         private val badgeDrawable = ShapeDrawable(OvalShape())
 
-
+        /**
+         * Соединяет [direction] с [R.layout.direction_item].
+         * В этом методе описывается, какие значения выведутся на определённых местах лэйаута
+         * Также тут меняется бейдж, в соответствии с описанием в поле [direction.badge]
+         */
         fun bind(direction: Direction) {
             directionTitleTextView.text = direction.title
             val amount = direction.getCoursesAmount()
@@ -66,6 +78,9 @@ class DirectionsAdapter :
     }
 }
 
+/**
+ * В этом объекте нужно описать, как сравнивать элементы списка между собой, для корректной работы [ListAdapter]
+ */
 object DirectionDiffCallback : DiffUtil.ItemCallback<Direction>() {
     override fun areItemsTheSame(oldItem: Direction, newItem: Direction): Boolean {
         return oldItem == newItem

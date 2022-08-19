@@ -6,6 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mikevarl.netology.R
 
+/**
+ * Boilerplate класс. Он необходим для корректной работы [RecyclerView] но не содержит какой-то логики.
+ * В нашем RecyclerView есть всего один элемент типа [DirectionsHeaderViewHolder], и вся логика отрисовки содержится в [R.layout.direction_list_header_item]
+ */
 class DirectionsHeaderAdapter :
     RecyclerView.Adapter<DirectionsHeaderAdapter.DirectionsHeaderViewHolder>() {
 
