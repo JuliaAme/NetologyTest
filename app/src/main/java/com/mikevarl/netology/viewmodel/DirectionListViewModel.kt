@@ -15,11 +15,18 @@ class DirectionListViewModel(private val directionsSource: DirectionsSource) : V
     private val _directionsLoaded = MutableLiveData<Boolean>()
     val directionsLoaded: LiveData<Boolean> = _directionsLoaded
 
+    /**
+     * При инициализации ViewModel пытаемся получить направления
+     */
     init {
         _directionsLoaded.value = false
         getDirections()
     }
 
+    /**
+     * Получаем направления из [directionsSource].
+     * Так как запрос по сети может завершиться неуспешно, пытаемся повторять запрос, пока не получим список.
+     */
     private fun getDirections() {
         viewModelScope.launch {
             retry {
@@ -30,13 +37,19 @@ class DirectionListViewModel(private val directionsSource: DirectionsSource) : V
     }
 }
 
+/**
+ * Этот объект описывает, как создавать [DirectionListViewModel].
+ * Мы хотим использовать реализацию [NetworkDirectionsSource] и указываем это здесь.
+ * Внутри [MainActivity] вызов "by viewModels { DirectionListViewModelFactory }" будет использовать этот метод.
+ * С настроенным Dependency Injection создание объектов может выглядеть по-другому.
+ */
 @Suppress("UNCHECKED_CAST")
 val DirectionListViewModelFactory = object : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
         with(modelClass) {
             when {
                 isAssignableFrom(DirectionListViewModel::class.java) ->
-                    DirectionListViewModel(NetworkDirectionsSource())
+                    DirectionListViewModel(NetworkDirectionsSource()) // используем [NetworkDirectionsSource]
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

@@ -14,6 +14,7 @@ import com.mikevarl.netology.viewmodel.DirectionListViewModel
 import com.mikevarl.netology.viewmodel.DirectionListViewModelFactory
 
 class MainActivity : AppCompatActivity() {
+    // Получаем ViewModel используя DirectionListViewModelFactory для создания
     private val directionListViewModel: DirectionListViewModel by viewModels { DirectionListViewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
