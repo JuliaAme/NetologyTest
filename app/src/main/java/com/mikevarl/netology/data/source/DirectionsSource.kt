@@ -2,6 +2,7 @@ package com.mikevarl.netology.data.source
 
 import com.mikevarl.netology.data.model.Badge
 import com.mikevarl.netology.data.model.Direction
+import com.mikevarl.netology.data.network.JsonApi
 
 interface DirectionsSource {
 
@@ -9,12 +10,20 @@ interface DirectionsSource {
 
 }
 
+/**
+ * Основная реализация [DirectionsSource].
+ * Делает запрос к серверу с помощью библиотеки retrofit.
+ */
 class NetworkDirectionsSource : DirectionsSource {
     override suspend fun getDirections(): List<Direction> {
         return JsonApi.retrofitService.getJsonData().data.map { it.toDirection() }
     }
 }
 
+/**
+ * Реализация [DirectionsSource] без запросов к серверу.
+ * Можно использовать для отладки отрисовки или Unit-тестирования.
+ */
 class MockDirectionsSource : DirectionsSource {
     override suspend fun getDirections(): List<Direction> {
         return listOf(
