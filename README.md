@@ -71,3 +71,5 @@
 При инициализации происходит запрос к источнику данных `DirectionsSource`, а активити получает оповещения об изменении данных с помощью `LiveData`
 
 Подробнее об этих паттернах можно почитать в [документации для разработчиков Android](https://developer.android.com/topic/libraries/architecture/viewmodel)
+
+## New Title
